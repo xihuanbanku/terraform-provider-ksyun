@@ -1,8 +1,41 @@
+## 1.26.7 (Oct 19, 2026)
+
+BUGFIX：
+
+- `ksyun_kes_cluster_vector`: 修复 Terraform Registry KES8 子菜单未显示该资源的问题。文档 frontmatter 中 `description` 字段的 YAML `|-` literal block 第二行 0 缩进，导致整个 frontmatter 解析中断、`subcategory` 丢失，资源被归入顶层未分类桶。将包注释首段合并为单行，gendoc 生成单行 description，frontmatter 恢复合法。
+
+## 1.26.6 (Oct 14, 2026)
+
+NOTES：
+
+- 重新发布 v1.26.5（同一提交 `2eaa95ae`，无代码变更），用于修正 Registry 发布状态。
+
+## 1.26.5 (Oct 14, 2026)
+
+IMPROVEMENTS：
+
+- **New Data Source:** `ksyun_kes_cluster_vector` KES8（向量版 8.x/9.x）单集群查询
+- **New Data Source:** `ksyun_kes_clusters_vector` KES8 集群列表查询
+- **New Data Source:** `ksyun_kes_instance_groups_vector` KES8 集群实例组查询
+
+## 1.26.4 (Oct 14, 2026)
+
+IMPROVEMENTS：
+
+- **New Resource:** `ksyun_kes_cluster` KES 标准版集群
+- **New Resource:** `ksyun_kes_cluster_vector` KES8（向量版 8.x/9.x）集群
+
 ## 1.26.3 (Oct 19, 2026)
 
 BUGFIX：
 
 - `ksyun_security_group_entry`: 修复`policy`不传递问题
+
+IMPROVEMENTS：
+
+- **New Data Source:** `ksyun_kes_cluster` KES 标准版单集群查询
+- **New Data Source:** `ksyun_kes_clusters` KES 标准版集群列表查询
+- **New Data Source:** `ksyun_kes_instance_groups` KES 标准版集群实例组查询
 
 ## 1.26.2 (Sep 10, 2026)
 
