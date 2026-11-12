@@ -167,6 +167,12 @@ func (s *KesVectorService) CreateVectorCluster(d *schema.ResourceData, r *schema
 	// is served by the kmr host, so override the request domain explicitly.
 	req.SetDomain(kmrEndpointFor(s.client.config.Endpoint))
 
+	// The kmr gateway authorises by product source; without this header it
+	// rejects the call with "User have no permission to buy kmr resource" even
+	// though the body is valid. The console sends the same header, and the SDK
+	// applies custom headers BEFORE v4 signing so it is covered by the signature.
+	req.SetHeaders(map[string]string{"X-Ksc-Source": "kmr"})
+
 	// ClusterType="KES" switches the shared kmr backend into KES8 mode.
 	req.ClusterType = ptrString("KES")
 	req.ClusterName = ptrString(d.Get("cluster_name").(string))
@@ -487,6 +493,11 @@ func normalizeVectorClusterMap(cluster interface{}, tags []struct {
 	// drop the partial/raw nested collections so config values are preserved.
 	delete(m, "InstanceGroups")
 	delete(m, "Tags")
+	// The API returns MainVersion with an "OpenSource-" prefix; store the bare
+	// version so it matches the (StateFunc-normalised) configuration value.
+	if v, ok := m["MainVersion"].(string); ok {
+		m["MainVersion"] = strings.TrimPrefix(v, kesMainVersionPrefix)
+	}
 	// expand tags into snake_case sub-maps consumed by the nested schema.
 	tagInterfaces := make([]interface{}, 0, len(tags))
 	for _, tag := range tags {
