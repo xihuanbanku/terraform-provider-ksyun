@@ -5,6 +5,7 @@ BUGFIX：
 - `ksyun_kes_cluster`、`ksyun_kes_cluster_vector`: 修复 `main_version` 与 API 返回的 `OpenSource-` 前缀不一致导致的永久 `ForceNew` diff（每次 plan 都会销毁重建集群），配置值与 state 值均归一化为裸版本号
 - `ksyun_kes_cluster`、`ksyun_kes_cluster_vector`: 为 `charge_type`（含 `instance_groups` 内的 `charge_type`）增加 `Monthly`/`Daily` 白名单校验，不再等到 apply 阶段才报 `chargeType invalid`
 - `ksyun_kes_cluster`: `purchase_time` 由 `Required` 改为 `Optional`，仅在大于 0 时下发，兼容按量付费（`Daily`）场景
+- `ksyun_kes_cluster_vector`: 移除请求中硬编码的 `X-Ksc-Source: kmr` header。实测该 header 对授权无任何影响（带与不带均返回相同的 `User have no permission to buy kmr resource`），属遗留的无意义头，不应由 provider 替用户附加
 
 ## 1.26.9 (Oct 21, 2026)
 

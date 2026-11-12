@@ -167,12 +167,6 @@ func (s *KesVectorService) CreateVectorCluster(d *schema.ResourceData, r *schema
 	// is served by the kmr host, so override the request domain explicitly.
 	req.SetDomain(kmrEndpointFor(s.client.config.Endpoint))
 
-	// The kmr gateway authorises by product source; without this header it
-	// rejects the call with "User have no permission to buy kmr resource" even
-	// though the body is valid. The console sends the same header, and the SDK
-	// applies custom headers BEFORE v4 signing so it is covered by the signature.
-	req.SetHeaders(map[string]string{"X-Ksc-Source": "kmr"})
-
 	// ClusterType="KES" switches the shared kmr backend into KES8 mode.
 	req.ClusterType = ptrString("KES")
 	req.ClusterName = ptrString(d.Get("cluster_name").(string))
